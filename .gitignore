@@ -1,0 +1,15 @@
+*.aux
+auto
+*.dvi
+*.log
+*.pdf
+*.svg
+*.out
+*.bbl
+*.blg
+*_*
+*~
+*#
+
+.DS_Store
+!triangle-circle.pdf
