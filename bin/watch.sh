@@ -9,6 +9,6 @@ build(){
 build $1 $2
 
 # watch for alterations
-while inotifywait *.tex *.bib; do
+while inotifywait lectures/*.tex lectures/*.bib; do
   build $1 $2
 done
