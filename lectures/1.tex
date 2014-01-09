@@ -31,40 +31,150 @@ should be two or three solid paragraphs in length.
 
 -
 
-The first lecture was an introduction to deterministic computation by way of a review and formalization of different Turing machines, their properties, and how those properties affect running time. In particular we discussed the impact of restricting a Turing machine with an arbitrary but finite alphabet to a binary alphabet and also the restricting a Turing machine with bidirectional, infinite tapes to unidirectional infinite tapes. Along the way we also saw key definitions and concepts related to understanding computation using Turing machines.
+The first lecture was an introduction to deterministic computation by way of a review and formalization of the Turing machine, its properties, and how those properties affect running time. In particular we discussed the impact of restricting a Turing machine with an arbitrary but finite alphabet to a binary alphabet and also the restricting a Turing machine with bidirectional, infinite tapes to unidirectional infinite tapes. Along the way we also saw key definitions and concepts related to understanding computation using Turing machines.
 
-\textbf{TODO} define the notation used in the equations that is not part of the definition of a Turing machine, e.g. $\rhd, \Box, \{0,1\}^*$, maybe in an appendix?
+\textbf{TODO} Include historical notes on Turing?
+
+\textbf{TODO} define the notation used in the equations that is not part of the definition of a Turing machine, e.g. $\rhd, \Box, \{0,1\}^*$, maybe in an appendix? Also note italics as definitional terms.
+
+\textbf{TODO} $\Gamma^{k}$ is a string of $k$ elements taken from the set $\Gamma$, (example: $\langle 1,0,1 \rangle \in \{0,1\}^3$).
+
+
 
 \section{Turing machines}
 
 As explained during the lecture, the Turing machine is a remarkably robust model for computation. (why?)
 
-We will examine what a Turing machine must have in detail but first at a high level the components are as follows:
+We will examine what a Turing machine must have to perform computation in detail but first at a high level the components are as follows:
 
 \begin{enumerate}
-  \item A finite set of ``tapes''  where the cardinality of the set is represented by $k$, and each tape has an infinite number of discrete ``cells''.
-  \item $k$ ``heads'' that read and write to a single cell on each tape and also handle the movement between cells.
-  \item A finite alphabet, $\Gamma$, that contains the symbols each head will write to and read from the tapes.
-  \item A register that stores the current ``state'' of the Turing machine from the finite set of possible states $Q$.
-  \item A transition function, $\delta$, that maps from the symbols in the $k$ cells currently under each head and the current state to symbols for the same cells, a movement (or lack thereof) for each head, and a new state.
+  \item A finite but arbitrarily large set of \textit{tapes},  where the cardinality of the set is often denoted by $k$, and each tape has an infinite number of discrete \textit{cells}.
+  \item $k$ \textit{heads} that read and write to a single cell on each tape and also handle the movement between cells.
+  \item A finite \textit{alphabet}, $\Gamma$, that contains the symbols each head will write to and read from the tapes.
+  \item A register or registers that stores the current \textit{state} of the Turing machine from the finite set of possible states $Q$.
+  \item A \textit{transition function}, $\delta$, that maps from the symbols in the $k$ cells currently under each head and the current state to symbols for the same cells, a movement (or lack thereof) for each head, and a new state.
 \end{enumerate}
 
-Diagram?
+\begin{figure}
+\begin{center}
+\includegraphics[width=1\textwidth]{lectures/graphics/turing-machine}
+\end{center}
+\caption{A Turing machine}
+\label{fig:turing-machine}
+\end{figure}
 
-Tapes most often start as far to the left as possible. That is, most representations of the Turing machine consist of tapes that only extend to the right infinitely. As we'll see later, even those that extend in both directions can be ``reduced'' to a Turing machine that only extends infinitely in one direction. Also, the first tape is the ``input tape'' and the head for that tape is ``read-only''. That is, the transition function can never tell the head for the input tape to write or similarly must always write the same symbol back.
+More formally we have the following definition for the Turing machine itself (everything but the tapes).
 
-The heads for each tape are responsible for reading values as input to the transition function, $\delta$, and writing the output from $\delta$ to the $k-1$ ``read-write'' tapes. They are also responsible for moving the tape left one cell, right one cell, or not at all depending on the output of $\delta$. Each is represented by $\leftarrow$, $\rightarrow$, and $\cdot$ respectively in subsequent discussion. Finally, When a head attempts to move the tape right at the tape's left-most extent it will simply stay put.
-
-The alphabet $\Gamma$ must, at a minimum, contain both the start symbol, $\rhd$, the blank symbol $\Box$ and at least two more symbols to perform any computation. $\rhd$ is used to signal to the transition function, $\delta$, when a given head is at the left-most extent of its tape. The second is normally used to signify the end of other symbols on a given tape. Most often $\Gamma$ is simply the set $\{\rhd, \Box, 0, 1\}$. Otherwise the alphabet can contain a finite number of arbitrary symbols, but as we'll discuss later it is possible ``encode'' all other alphabets using the simple one.
-
-The state register assumes values from a the finite set $Q$ that must contain the states $\textsf{START}$ and $\textsf{HALTED}$ but is otherwise arbitrary. Some Turing machines have many registers but once again these can be encoded using the cartesian product of each set of possible values for the individual registers [1].
-
-Finally, the transition function, $\delta$,
-
-\textbf{TODO} provide the definition, show the full example from the lecture as an introduction. Include a sample table definitions for $\delta$ for the lecture example. Full $\delta$? Note about delta being a total function though that appears to be implicit in the definition of function, ie you only qualify things as partial functions.
-
+\begin{definition}
+  \textbf{Turing Machine}. A Turing machine is a tuple $(\Gamma, Q, \delta)$ with the following properties.
+  \begin{enumerate}
+    \item $\Gamma$ is a finite but arbitrary set, referred to as an \textit{alphabet}, that must contain at least $\rhd, \Box$ and two other distinct, unique symbols.
+    \item $Q$ is a set of finite but arbitrary set of \textit{states} that must contain at least $\textsf{START}$ and $\textsf{HALTED}$ (\textbf{QUESTION} and at least one other state?).
+    \item $\delta$ is a function of the type $Q \times \Gamma^{k} \rightarrow Q \times \Gamma^{k-1} \times \{\leftarrow, \cdot, \rightarrow\}^k$, referred to as the \textit{transition function} where $k$ is the finite but arbitrarily large number of tapes that the machine uses.
+  \end{enumerate}
+\end{definition}
 
 
+Assuming the above description and definition, a single \textit{step} of a Turing machine's execution proceeds by, first observing the current cell values and current state value, and then writing the new symbols, new state and moving each tape based on the result from $\delta$. The physical metaphor is represented in Figure \ref{fig:turing-machine} but a more detailed description of each component may be helpful.
+
+Tapes normally start as far to the left as possible. That is, most Turing machines consist of tapes that only extend to the right infinitely. As we'll see later, even those that extend in both directions can be \textit{reduced} to a Turing machine that only extends infinitely in one direction. Also, one of the tapes is the \textit{input tape} and the head for that tape is \textit{read-only}. That is, the transition function can never tell the head for the input tape to write or similarly must always write the same symbol back. All other tapes start blank save for the start symbol at the beginning.
+
+The heads for each tape are responsible for reading values as input to the transition function, $\delta$, and writing the output from $\delta$ to the $k-1$ \textit{read-write} tapes. They are also responsible for moving the tape left one cell, right one cell, or not at all depending on the output of $\delta$. Each of those movement operations is represented by $\leftarrow$, $\rightarrow$, and $\cdot$. Finally, When a head attempts to move the tape right at the tape's left-most extent it will simply stay put.
+
+The alphabet $\Gamma$ must, at a minimum, contain both the start symbol, $\rhd$, the blank symbol $\Box$ and at least two more symbols to perform any computation. $\rhd$ is used to signal to the transition function, $\delta$, when a given head is at the left-most extent of its tape. The second is normally used to signify the end of other symbols on a given tape. Most often $\Gamma$ is simply the set $\{\rhd, \Box, 0, 1\}$. Otherwise the alphabet can contain a finite number of arbitrary symbols, but as we'll discuss later it is possible to ``encode'' all other alphabets using the simple one.
+
+The state register assumes values from a the finite set $Q$ that must contain the states \textsf{START} and \textsf{HALTED} but is otherwise arbitrary. Some Turing machines have many registers but once again these can be encoded for use with a single register by taking the cartesian product of each set of possible states for the individual registers [1].
+
+Finally, examining the type of $\delta$, namely $Q \times \Gamma^{k} \rightarrow Q \times \Gamma^{k-1} \times \{\leftarrow, \cdot, \rightarrow\} ^k$, you can see that it takes a single state from $Q$ and $k$ symbols from $\Gamma$, corresponding to the cells of the $k$ tapes currently under each head, as input and produces a new state from $Q$, $k-1$ new symbols for the same cells (the input tape is read-only), and $k$ movements for each head to perform.
+
+\section{Palindrome turing machine}
+
+Now we examine an example Turing machine that determines whether a given input is a palindrome to establish further intuition about how a Turing machine is constructed. First we define a palindrome using binary strings.
+
+\begin{definition}
+  \textbf{Palindrome}. $x \in \{0, 1\}^n$ is a palindrome if, when taken as a sequence, $\langle x_1,x_2,\ldots,x_n \rangle = \langle x_n,\ldots,x_2,x_1\rangle$
+\end{definition}
+
+With that in mind we can sketch the construction of a Turing machine to check and arbitrary but finite binary string to see if it is a palindrome.
+
+\begin{enumerate}
+  \item It will have three tapes: the input tape, output tape and one work tape. That is $k = 3$
+  \item It will use the binary alphabet, $\Gamma = \{\rhd, \Box, 0, 1\}$.
+  \item It will have five states, $Q = \{ \textsf{START}, \textsf{HALT}, \textsf{COPY}, \textsf{LEFT}, \textsf{TEST}\} $.
+  \item It will have a transition function $\delta$ that conforms to the following sequence of steps:
+    \begin{enumerate}
+      \item Copy all symbols from the input tape to the same cells on the work tape, until both heads for these tapes are at the end of the input.
+      \item Return the head of the work tape to it's left most cell before $\rhd$.
+      \item Begin comparing each cell of the work tape and the input tape and then proceeding right and left respectively.
+      \item If at any point the value of the cell under either head is different output 0 to the output tape and halt.
+      \item If input tape reaches $\rhd$ then output 1 to the output tape and halt.
+    \end{enumerate}
+\end{enumerate}
+
+To illustrate further we define $\delta$ as a mapping in tabular form.
+
+\vspace{0.5cm}
+
+\begin{tabular}{ | a | b | c | d | e | f | g | h | i | j | k | }
+    \hline
+    inp$_{in}$ & wrk$_{in}$ & out$_{in}$ &  sta$_{in}$ &
+      wrk$_{out}$ & out$_{out}$ & sta$_{out}$ & inp$_{mv}$ & wrk$_{mv}$ & out$_{mv}$  \\
+    \hline
+
+    \rhd & \rhd & \rhd & \textsf{START} &
+      \rhd & \rhd & \textsf{COPY} & \rightarrow & \rightarrow & \rightarrow \\
+    \hline
+
+    0 & \Box & $\Box$ & \textsf{COPY} &
+      0 & \Box & \textsf{COPY} & \rightarrow & \rightarrow & \cdot \\
+    \hline
+
+    1 & $\Box$ & $\Box$ & \textsf{COPY} &
+      1 & $\Box$ & \textsf{COPY} & $\rightarrow$ & $\rightarrow$ & $\cdot$ \\
+    \hline
+
+    $\Box$ & $\Box$ & $\Box$ & \textsf{COPY} &
+      $\Box$ & $\Box$ & \textsf{LEFT} & $\cdot$ & $\leftarrow$ & $\cdot$ \\
+    \hline
+
+    $\Box$ & 0 & $\Box$ & \textsf{LEFT} &
+      0 & $\Box$ & \textsf{LEFT} & $\cdot$ & $\leftarrow$ & $\cdot$ \\
+    \hline
+
+    $\Box$ & 1 & $\Box$ & \textsf{LEFT} &
+      1 & $\Box$ & \textsf{LEFT} & $\cdot$ & $\leftarrow$ & $\cdot$ \\
+    \hline
+
+    $\Box$ & $\rhd$ & $\Box$ & \textsf{LEFT} &
+      $\rhd$ & $\Box$ & \textsf{TEST} & $\leftarrow$ & $\rightarrow$ & $\cdot$ \\
+    \hline
+
+    1 & 1 & $\Box$ & \textsf{TEST} &
+      1 & $\Box$ & \textsf{TEST} & $\leftarrow$ & $\rightarrow$ & $\cdot$ \\
+    \hline
+
+    0 & 0 & $\Box$ & \textsf{TEST} &
+      0 & $\Box$ & \textsf{TEST} & $\leftarrow$ & $\rightarrow$ & $\cdot$ \\
+    \hline
+
+    1 & 0 & $\Box$ & \textsf{TEST} &
+      0 & 0 & \textsf{HALT} & $\cdot$ & $\cdot$ & $\cdot$ \\
+    \hline
+
+    0 & 1 & $\Box$ & \textsf{TEST} &
+      1 & 0 & \textsf{HALT} & $\cdot$ & $\cdot$ & $\cdot$ \\
+    \hline
+
+    $\rhd$ & $\Box$ & $\Box$ & \textsf{TEST} &
+      $\Box$ & 1 & \textsf{HALT} & $\cdot$ & $\cdot$ & $\cdot$ \\
+    \hline
+  \end{tabular}
+
+\vspace{0.5cm}
+
+As you can see this is a relatively straight forward function thought in most cases enumerating all the steps required for even slightly more complex computations will be intractable.
+
+\section{Efficiency}
 
 \section{Organization}
 Lecture proper should be presented in a sequence of
