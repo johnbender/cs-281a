@@ -117,8 +117,13 @@ To illustrate further we define $\delta$ as a mapping in tabular form.
 
 \begin{tabular}{ | a | b | c | d | e | f | g | h | i | j | k | }
     \hline
-    inp$_{in}$ & wrk$_{in}$ & out$_{in}$ &  sta$_{in}$ &
-      wrk$_{out}$ & out$_{out}$ & sta$_{out}$ & inp$_{mv}$ & wrk$_{mv}$ & out$_{mv}$  \\
+    \multicolumn{4}{|i|}{Input} & \multicolumn{6}{|i|}{Ouput}\\
+    \hline
+    \multicolumn{3}{|i|}{Tapes}& \multicolumn{1}{|i|}{State} &
+      \multicolumn{2}{|i|}{Tapes} & \multicolumn{1}{|i|}{State} & \multicolumn{3}{|i|}{Movement}\\
+    \hline
+    in$_{in}$ & wrk$_{in}$ & out$_{in}$ &  sta$_{in}$ &
+      wrk$_{out}$ & out$_{out}$ & sta$_{out}$ & in$_{mv}$ & wrk$_{mv}$ & out$_{mv}$  \\
     \hline
 
     \rhd & \rhd & \rhd & \textsf{START} &
