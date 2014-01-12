@@ -70,7 +70,7 @@ The heads for each tape are responsible for reading values as input to the trans
 
 The alphabet $\Gamma$ must, at a minimum, contain both the start symbol, $\rhd$, the blank symbol $\Box$ and at least two more symbols to perform any computation. $\rhd$ is used to signal to the transition function, $\delta$, when a given head is at the left-most extent of its tape. The second is normally used to signify the end of other symbols on a given tape. Most often $\Gamma$ is simply the set $\{\rhd, \Box, 0, 1\}$. Otherwise the alphabet can contain a finite number of arbitrary symbols, but as we'll discuss later it is possible to ``encode'' all other alphabets using the simple one.
 
-The state register assumes values from a the finite set $Q$ that must contain the states \textsf{START} and \textsf{HALT} but is otherwise arbitrary. Some Turing machines have many registers but once again these can be encoded for use with a single register by taking the cartesian product of each set of possible states for the individual registers [1].
+The state register assumes values from a the finite set $Q$ that must contain the states \textsf{START} and \textsf{HALT} but is otherwise arbitrary. Some Turing machines have many registers but once again these can be encoded for use with a single register by taking the cartesian product of each set of possible states for the individual registers \cite{textbook}.
 
 Finally, examining the type of $\delta$, namely $Q \times \Gamma^{k} \rightarrow Q \times \Gamma^{k-1} \times \{\leftarrow, \cdot, \rightarrow\} ^k$, you can see that it takes a single state from $Q$ and $k$ symbols from $\Gamma$, corresponding to the cells of the $k$ tapes currently under each head, as input and produces a new state from $Q$, $k-1$ new symbols for the same cells (the input tape is read-only), and $k$ movements for each head to perform.
 
@@ -207,7 +207,7 @@ Of primary concern is the ability to find a Turing machine that \textit{decides}
   \end{equation*}
 \end{definition}
 
-To accompany the notions of languages and deciding a language, there are classes of languages to which a one might belong based on the efficiency of its deciding Turing machine. For example, if some language $L$ has a \textit{deterministic} Turing machine (from whence the \textbf{D} is derived) that decides $L$ in some time $T(n)$ then it belongs to the family \textbf{DTIME}$(T(n))$ [1].
+To accompany the notions of languages and deciding a language, there are classes of languages to which a one might belong based on the efficiency of its deciding Turing machine. For example, if some language $L$ has a \textit{deterministic} Turing machine (from whence the \textbf{D} is derived) that decides $L$ in some time $T(n)$ then it belongs to the family \textbf{DTIME}$(T(n))$ \cite{textbook}.
 
 \begin{definition}
   \textbf{DTIME}$(T(n))$ is the family of all languages $L$ decideable in the time $C(T(n))$ for some constant $C$ where $C > 0$.
@@ -265,17 +265,19 @@ Next we consider the impact of representing infinite bidirectional tapes using a
 There are a few cases work examining to understand this further:
 
 \begin{itemize}
-  \item When the current state of the Turing machine includes Top and the movement direction from the original $\delta$ would be \textit{right} the tape must actually proceed left. That is the top tape is ``upside-down''.
-  \item When the current state of the Turing machine includes Bottom the movement proceeds as normal.
-  \item When the cell under consideration is the physical leftmost, the state includes Top, and the original $delta$ would move right, the head remains at that cell and instead writes a new state that includes Bottom instead of Top.
+  \item When the cell under consideration is the physical leftmost, the state includes Top, and the original $\delta$ would move right, the head remains at that cell and instead writes a new state that includes Bottom instead of Top.
   \item Similarly for the bottom leftmost cell when $delta$ would move left the head remains at  that cell and instead writes a new state that includes Top instead of Bottom.
+  \item When the current state of the Turing machine includes Top and the movement direction from the original $\delta$ would be \textit{right} the tape must proceed left on the stacked tape. That is the Top tape is ``upside-down''.
+  \item When the current state of the Turing machine includes Bottom the movement proceeds as normal.
 \end{itemize}
 
-Finally we have that
+Finally, we consider the impact on the execution time when folding a tape this way. Given that the only extra complexity exists in $\delta$'s management of the Top and Bottom state it's fairly clear that $T'(n) = O(T(n))$.
 
 \begin{theorem}
   If a function $f:\{0,1\}^* \rightarrow \{0,1\}^*$ is computable in time $T(n)$ with bidirectional tapes, then it is computable in time $O(T(n))$ with unidirectional tapes.
 \end{theorem}
+
+
 
 \newpage
 
@@ -474,8 +476,9 @@ illustrated below.
 Proof goes here.
 \end{proof}
 
+\newpage
 
 \bibliographystyle{abbrv}
-\bibliography{template}
+\bibliography{1}
 
 \end{document}
