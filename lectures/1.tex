@@ -271,11 +271,28 @@ There are a few cases work examining to understand this further:
   \item When the current state of the Turing machine includes Bottom the movement proceeds as normal.
 \end{itemize}
 
-Finally, we consider the impact on the execution time when folding a tape this way. Given that the only extra complexity exists in $\delta$'s management of the Top and Bottom state it's fairly clear that $T'(n) = O(T(n))$.
+\newpage
+
+Finally, we consider the impact on the execution time when folding a tape this way. Given that the only extra complexity exists in $\delta$'s accounting for the Top and Bottom state it's fairly clear that $T'(n) = O(T(n))$.
 
 \begin{theorem}
   If a function $f:\{0,1\}^* \rightarrow \{0,1\}^*$ is computable in time $T(n)$ with bidirectional tapes, then it is computable in time $O(T(n))$ with unidirectional tapes.
 \end{theorem}
+
+\begin{proof}
+  By the definition of $O(T(n))$ we must argue that, for every $n$ steps of the original bidirectional Turing machine $M$, the unidirectional ``folded'' tape Turing machine $M'$ will take at most $C \cdot n$ steps. Where $C$ is some constant independent of the input length, $|x|$. We use the model from Figure \ref{fig:folded} to argue that $M'$ will take \textit{at most} $n$ steps and therefore $C \le 1$. Consider three cases:
+
+  \begin{description}
+    \item[From left of $\rhd$ to left of $\rhd$ on $M$s tape.] Then the cells of $M$s tape correspond to the first symbols of the pairs in $M'$s tape. So, where $M$ would take $n$ steps to traverse left, $M'$ can traverse right $n$ steps. So, $T(n) = T'(n)$.
+
+    \item[From $\rhd$ to right of $\rhd$ on $M$s tape.] Then the cells of $M$s tape correspond to the second symbols of the pairs in $M'$s tape. So, where $M$ would take $n$ steps to traverse right, $M'$ can traverse right $n$ steps. So, $T(n) = T'(n)$.
+
+    \item[From either side of $\rhd$ to the other on $M$s tape.] Now suppose that the head of $M$ is $i$ steps from $\rhd$ and the destination is $j$ steps further from $\rhd$, such that $n = i + j$. Now $M$ must take $n$ steps but $M'$ can ``jump'' from Top to Bottom or vice versa and take only $|i - j|$ steps. So $T(n) \ge T'(n)$. In particular, the best case $i = j$ requires exactly one step for $M'$ to update the state and write the pair back to the same cell and in the worst case $i = 0$  or $j = 0$ so $M'$ requires $n$ steps resulting in $0 < C \le 1$.
+  \end{description}
+
+Thus, $C = 1$ for the first two cases $0 < C \le 1$ for the last.
+\end{proof}
+
 
 \newpage
 
