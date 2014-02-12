@@ -1,8 +1,10 @@
 build(){
 	pdflatex -interaction=nonstopmode $1
-	bibtex $2
-	pdflatex -interaction=nonstopmode $1
-	pdflatex -interaction=nonstopmode $1
+  if ! [ -z "$2" ]; then
+	  bibtex $2
+	  pdflatex -interaction=nonstopmode $1
+	  pdflatex -interaction=nonstopmode $1
+  fi
 }
 
 # build once by default

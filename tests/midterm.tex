@@ -1,0 +1,39 @@
+\documentclass[usletter]{article}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{test}
+\usepackage{complexity}
+\usepackage[margin=1.5in]{geometry}
+
+\begin{document}
+
+
+\makeheader{John Bender}
+           {February 23, 2014}
+           {1}
+           {Midterm Exam}
+
+\begin{enumerate}
+  \item Given any languages $L_1, L_2 \in \NP$, prove that $L_1 \cup L_2 \in \P$
+  \item 2
+  \item Define $T : \mathbb{N} \rightarrow \mathbb{N}$ by $T(n) = max_{\alpha,x}\{T_{\alpha}(x) : T_{\alpha}(x) < \infty \}$, where $\alpha$ and $x$ range over all Boolean strings of length at most $n$, and $T_{\alpha}(x)$ denotes the running time of $M_{\alpha}$ on $x$. Prove that no Turing machine can compute $T$.
+
+    \begin{proof}
+      Let us assume $T$ is computable for the sake of contradiction. Then there exists a Turing machine $M_T$ that computes $T$. Further, there exists a binary string representation $\lfloor M_T \rfloor$ for $M_T$ of bounded length (TODO cite lemma/proof from book?).
+
+      Next we select $n$ of sufficient length such that $T(n)$ must consider a Turing machine $M_{\beta}$ that is large enough to include the definition of $M_T$ and takes the following steps for an input $x \in \{0,1\}^n$:
+      \begin{enumerate}
+        \item Simulate $M_T$ on input $n = |x|$, obtaining the maximum running time of all Turing machines $M$ of length $n$.
+        \item Write ones to a work tape recording the number written until it exceeds the value of the simulation of $M_T$ with $n$.
+      \end{enumerate}
+
+      Now, the result of $T(n) = T_{\beta}(x)$ for $|x| = n$ but then $T_{\beta}(x) > T(|x|)$, a contradiction.
+
+    \end{proof}
+
+\end{enumerate}
+
+\end{document}
