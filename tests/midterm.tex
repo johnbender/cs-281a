@@ -10,7 +10,6 @@
 
 \begin{document}
 
-
 \makeheader{John Bender}
            {February 10, 2014}
            {1}
@@ -66,6 +65,30 @@
       Now, the result for $n$ must be $T(n) = T_{\beta}(x)$ for $|x| = n$ but then $T_{\beta}(x) > T(|x|)$ by (b), a contradiction.
 
     \end{proof}
+
+  \item Consider the following task: given the encoding $\alpha \in \{0,1\}^*$ of a Turing machine $M_{\alpha}$ that halts on every input, determine whether $M_{\alpha}$ runs in constant time. Either give an algorithm for this problem or prove that it is undecidable.
+
+      \begin{proof}
+        For the sake of contradiction we assume there exists a deterministic Turing machine $M_{const}$ that decides the following language, where all $M_{\alpha}$ under consideration are known to halt.
+        \begin{align}
+          \{ \lfloor M_{\alpha} \rfloor : M_{\alpha} \text{runs in constant time} \}
+        \end{align}
+
+        Since it is possible to encode $M_{const}$ we construct $M_{\beta}$ using $M_{const}$ to take the following steps:
+
+        \begin{enumerate}
+          \item Simulate $M_{const}(\lfloor M_{const} \rfloor)$ and record the running time.
+          \item If $M_{const}(\lfloor M_{const} \rfloor) = 1$ then we know that $M_{const}$ is a constant time algorithm and we simulate its execution with the input $x$.
+          \item If $M_{const}(x) = 1$, write $|x|^2$ ones to a work tape and exit, otherwise exit having used a constant amount of time (by b) to run $M_{const}$ twice..
+          \item Otherwise if $M_{const}(\lfloor M_{const} \rfloor) = 0$ then we know that $M_{const}$ is not a constant time algorithm, but since $M_{const}$ is a deterministic Turing machine this simulated execution has a fixed execution time $T_{const}(n)$. We simulate its execution with the input $x$ and record the running time.
+          \item If $M_{const}(x) = 1$ exit having run the non-constant time $M_{const}$ twice. Otherwise write ${3 \cdot T_{const}(n)}$ ones to a work tape which is both constant and by definition must exceed the execution time of $M_{const}(\lfloor M_{const} \rfloor)$.
+        \end{enumerate}
+
+        By assumption $M_{const}(\lfloor M_{\beta} \rfloor) = 1$ if $M_{\beta}$ is a constant time algorithm and $0$ if it isn't.
+
+        Note $M_{\beta}$ halts for all inputs.
+      \end{proof}
+
 
 \end{enumerate}
 
