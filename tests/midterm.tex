@@ -89,6 +89,40 @@
         Note $M_{\beta}$ halts for all inputs.
       \end{proof}
 
+    \item Prove that at least one of the containments $\P \subseteq \PSPACE \subseteq \EXP$ is proper.
+
+      \begin{proof}
+        To show that $\P \subset \PSPACE$ we must show that for all languages $L_1 \in \P$ that also $L_1 \in \PSPACE$ and we must exhibit at least one language $L_2 \in \PSPACE$ that is not in $\P$.
+
+        By the definition of $\P$ we know there must exist a Turing machine $M_1$ that decides $L_1$ in polynomial time $p(n)$. Also, by the definition of $\PSPACE$, any Turing machine $M_1$ that decides a language $L_1$ must do so in polynomial space. Then the first requirement is immediate since any $M_1$ running in polynomial time $p(n)$ can write to at most $p(n)$ cells if it does nothing else. So we have that $\P \subseteq \PSPACE$.
+
+        To finish we note that the language TQBF $\in \PSPACE$
+
+        TODO cite notes/book for tqbq
+      \end{proof}
+
+    \item Show that if $\PH = \PSPACE$, then the polynomial hierarchy collapses.
+
+    \item Prove that $\P^{\text{TQBF}} = \NP^{\text{TQBF}}$.
+
+      \begin{proof}
+        We show that $\P^{\text{TQBF}} \subseteq \NP^{\text{TQBF}}$ and $\NP^{\text{TQBF}} \subseteq \P^{\text{TQBF}}$.
+
+        First, by the definition of $\NP^{\text{TQBF}}$, for all $L \in \NP^{\text{TQBF}}$ there must be a TM $M$ with the ability to consult a $\text{TQBF}$ oracle such that:
+
+      \begin{align}
+        x \in L \iff \exists u.M(x,u) = 1
+      \end{align}
+
+      Clearly any member of $\P^{\text{TQBF}}$ is also a member of $\NP^{\text{TQBF}}$ since any TM $M'$ deciding a language in $\P^{\text{TQBF}}$ can simply ignore the certificate argument and decide membership as normal. So we have that, $\P^{\text{TQBF}} \subseteq \NP^{\text{TQBF}}$.
+
+      Second, by Cook Levin we know that any language in $\NP^{\text{TQBF}}$ can be reduced to SAT in polynomial time. We also know that a linear time transformation to \text{TQBF} exists for any $\psi \in$ SAT by appending existential quantifiers to the front of $\psi$. Then an appeal to the TQBF oracle can be made resulting in a polynomial time algorithm and we have that $\NP^{\text{TQBF}} \subseteq \P^{\text{TQBF}}$.
+
+      TODO Show that $\NP^{\text{TQBF}}$ is not significantly different from $\NP$ so that Cook Levin still applies.
+
+      \end{proof}
+
+
 
 \end{enumerate}
 
