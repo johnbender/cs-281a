@@ -1,3 +1,4 @@
+
 \documentclass[usletter]{article}
 \usepackage{graphicx}
 \usepackage{amsfonts}
@@ -92,6 +93,17 @@
     \item Prove that at least one of the containments $\P \subseteq \PSPACE \subseteq \EXP$ is proper.
 
       \begin{proof}
+        By the transitivity of $\subseteq$ we have:
+
+        \begin{equation}
+          \P \subseteq \PSPACE \subseteq \EXP \implies \P \subseteq \EXP
+        \end{equation}
+
+        Which admits the possibility that $\P = \EXP$ which we know is not true by the time hierarchy theorem [TODO citation]. Therefore, we must conclude that one of the two subsets must be proper as required.
+      \end{proof}
+
+
+      \begin{proof}
         To show that $\P \subset \PSPACE$ we must show that for all languages $L_1 \in \P$ that also $L_1 \in \PSPACE$ and we must exhibit at least one language $L_2 \in \PSPACE$ that is not in $\P$.
 
         By the definition of $\P$ we know there must exist a Turing machine $M_1$ that decides $L_1$ in polynomial time $p(n)$. Also, by the definition of $\PSPACE$, any Turing machine $M_1$ that decides a language $L_1$ must do so in polynomial space. Then the first requirement is immediate since any $M_1$ running in polynomial time $p(n)$ can write to at most $p(n)$ cells if it does nothing else. So we have that $\P \subseteq \PSPACE$.
@@ -102,6 +114,11 @@
       \end{proof}
 
     \item Show that if $\PH = \PSPACE$, then the polynomial hierarchy collapses.
+
+      \begin{proof}
+        We know that there exists a $\PSPACE$-complete problem, TQBF. Then, if $\PH = \PSPACE$, TQBF must also $PH$-complete. This implies that every problem in $\PH$ can be reduced in polynomial time to TQBF. Also, by the definition of $PH$ then TQBF must also exist at a specific ``level'' of the polynomial hierarchy (TODO clarify). As a result all languages in $\PH$ can be reduced to the level at which TQBF resides.
+      \end{proof}
+
 
     \item Prove that $\P^{\text{TQBF}} = \NP^{\text{TQBF}}$.
 
@@ -122,7 +139,9 @@
 
       \end{proof}
 
+    \item Find an error in the following incorrect proof that $\NPSPACE = \PSPACE$ ...
 
+      The algorithm can't know when it is done ``trying out all the possible non-deterministic guesses'' without doing some recording of which guesses it has made due to non-determinism. This may require as much as $2^{n^c}$ space to record each guess.
 
 \end{enumerate}
 
