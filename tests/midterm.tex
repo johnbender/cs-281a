@@ -41,46 +41,50 @@
       In which case we can define $M_3$ to first try $x,u$ with $M_1$ and then $M_2$ if necessary. Since both $M_1$ and $M_2$ are polynomial time executing them in sequence is also polynomial time, thus $M_3$ is a polynomial time Turing machine that verifies for $L_1 \cup L_2$.
     \end{proof}
 
-    \newpage
-
   \item Let $f : \mathbb{N} \rightarrow \mathbb{N}$ and $g : \mathbb{N} \rightarrow \mathbb{N}$ be time-constructible. Prove that the following functions are also time-constructible: (a) $f + g$; (b) $f \cdot g$.
 
 
     \begin{proof} (a)
-      We must show that following $h : \mathbb{N} \rightarrow \mathbb{N}$ is time-constructible.
+      We must show that the following $h : \mathbb{N} \rightarrow \mathbb{N}$ is time-constructible.
 
       \begin{align*}
-        h(x) &= f(x) + g(x)
+        h(n) &= f(n) + g(n)
       \end{align*}
 
-      That is, we must show there exists a Turing machine $M_h$ that computes $\lfloor f(|x|) + g(|x|) \rfloor$ in $O(f(n) + g(n))$.
+      That is, we must show there exists a Turing machine $M_h$ that computes $\lfloor f(|x|) + g(|x|) \rfloor$ in $O(f(n) + g(n))$ for $x \in \{0,1\}^n$.
 
       We know the following:
 
       \begin{itemize}
-        \item There exists a Turing machine $M_f$ that computes $\lfloor f(|x|) \rfloor$ in $O(f(n))$ by the definition of time-constructibility in \cite{textbook, 16} and lecture.
+        \item There exists a Turing machine $M_f$ that computes $\lfloor f(|x|) \rfloor$ in $O(f(n))$ by the definition of time-constructibility.
 
         \item There exists a Turing machine $M_g$ that computes $\lfloor g(|x|) \rfloor$ in $O(g(n))$.
 
-        \item Either $f = O(g)$, $g = O(f)$ or $f = \Theta(g)$ for sufficiently large $|x|$. That is, the runtime of either $M_f$ or $M_g$ is $\Theta(h(n))$.
+        \item Either $f = O(g)$, $g = O(f)$ or $f = \Theta(g)$ and for sufficiently large $|x|$. That is $O(f(n) + g(n)) = \Theta(f(n))$ or alternately $O(f(n) + g(n)) = \Theta(g(n))$
       \end{itemize}
 
-      As a result we know that $M_h$ exists.
+      As a result we know that a TM computing $h(n)$ will be $\Theta(f(n))$ or $\Theta(g(n))$, in other words $M_h$ can safely emulate both $M_f$ and $M_g$ and remain $O(f(n) + g(n))$.
+
+      \textbf{NOTE} It seems like $+$ should be accounted for here as well since its runtime should be at least $|f(n)| + |g(n)|$ and both $f$ and $g$ might be runtime $n$ according to the definition in the book.
     \end{proof}
 
     \begin{proof} (b)
-      We must show that following $h : \mathbb{N} \rightarrow \mathbb{N}$ is time-constructible.
+      We must show that the following $h : \mathbb{N} \rightarrow \mathbb{N}$ is time-constructible.
 
       \begin{align*}
         h(n) &= f(n) \cdot g(n)
       \end{align*}
-    \end{proof}
 
+      That is, we must show there exists a Turing machine $M_h$ that computes $\lfloor f(|x|) \cdot g(|x|) \rfloor$ in $O(f(n) \cdot g(n))$ for some $x \in \{0,1\}^n$.
+
+      Similar to addition, the actual computation will be bounded by either $f$ or $g$ so it is certainly the case that the runtime of a Turing machine for $f(n) \cdot g(n)$ be $O(f(n) \cdot g(n))$.
+
+    \end{proof}
 
   \item Define $T : \mathbb{N} \rightarrow \mathbb{N}$ by $T(n) = max_{\alpha,x}\{T_{\alpha}(x) : T_{\alpha}(x) < \infty \}$, where $\alpha$ and $x$ range over all Boolean strings of length at most $n$, and $T_{\alpha}(x)$ denotes the running time of $M_{\alpha}$ on $x$. Prove that no Turing machine can compute $T$.
 
     \begin{proof}
-      We assume $T$ is computable for the sake of contradiction. Then there exists a Turing machine $M_T$ that computes $T$. Further, there exists a binary string representation $\lfloor M_T \rfloor$ (TODO cite lemma/proof from book?).
+      We assume $T$ is computable for the sake of contradiction. Then there exists a Turing machine $M_T$ that computes $T$. Further, there exists a binary string representation $\lfloor M_T \rfloor$.
 
       Next we select $n$ of sufficient length such that $T(n)$ must consider a Turing machine $M_{\beta}$ that accommodates the definition of $M_T$ and takes the following steps for an input $x \in \{0,1\}^n$:
       \begin{enumerate}
@@ -90,13 +94,6 @@
 
       Now, the result for $n$ must be $T(n) = T_{\beta}(x)$ for $|x| = n$ but then $T_{\beta}(x) > T(|x|)$ by (b), a contradiction.
     \end{proof}
-
-    Alternately:
-
-    \begin{proof}
-      Sketch: We assume $T$. Use $T$ to decide HALT. Cannot assume implementations details of $T$. Create a TM $M_{\text{HALT}$ that ensures the machine $\alpha$ under consideration takes long enough to be the output of $T(|\alpha|)$. Then of course if it gets an value per the definition $T$ then it decides HALT.
-    \end{proof}
-
 
   \item Consider the following task: given the encoding $\alpha \in \{0,1\}^*$ of a Turing machine $M_{\alpha}$ that halts on every input, determine whether $M_{\alpha}$ runs in constant time. Either give an algorithm for this problem or prove that it is undecidable.
 
@@ -154,9 +151,9 @@
 
       Clearly any member of $\P^{\text{TQBF}}$ is also a member of $\NP^{\text{TQBF}}$ since any TM $M'$ deciding a language in $\P^{\text{TQBF}}$ can simply ignore the certificate argument and decide membership as normal. So we have that, $\P^{\text{TQBF}} \subseteq \NP^{\text{TQBF}}$.
 
-      Second, by Cook Levin we know that any language in $\NP^{\text{TQBF}}$ can be reduced to SAT in polynomial time. We also know that a linear time transformation to \text{TQBF} exists for any $\psi \in$ SAT by prepending existential quantifiers to the front of $\psi$. Then an appeal to the TQBF oracle can be made resulting in a polynomial time algorithm and we have that $\NP^{\text{TQBF}} \subseteq \P^{\text{TQBF}}$.
+      Second, by Cook Levin we know that any language in $\NP^{\text{TQBF}}$ can be reduced to SAT in polynomial time. Then an appeal to the TQBF oracle can be made resulting in a polynomial time algorithm and we have that $\NP^{\text{TQBF}} \subseteq \P^{\text{TQBF}}$.
 
-      TODO Show that $\NP^{\text{TQBF}}$ is not significantly different from $\NP$ so that Cook Levin still applies.
+      Note, we can say that Cook Levin applies to $\NP^{\text{TQBF}}$
 
       \end{proof}
 
