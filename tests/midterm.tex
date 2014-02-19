@@ -32,7 +32,7 @@
         x \in L_2 \iff \exists u.M_2(x,u) = 1
       \end{align}
 
-      Further by the definition of set union [TODO cite wikipedia] we have:
+      Further by set union we have:
 
       \begin{align}
         x \in L_1 \lor x \in L_2 \iff \exists u.M_1(x,u) = 1 \lor  M_2(x,u) = 1
@@ -47,18 +47,29 @@
 
 
     \begin{proof} (a)
-      We must show the existence of a time-constructible function $h : \mathbb{N} \rightarrow \mathbb{N}$ such that:
+      We must show that following $h : \mathbb{N} \rightarrow \mathbb{N}$ is time-constructible.
 
       \begin{align*}
-        h(n) &= f(n) + g(n)
+        h(x) &= f(x) + g(x)
       \end{align*}
 
-      For $f$ and $g$ we know that $f(n) = O(g(n))$, $g(n) = O(f(n))$, or $f(n) = \Theta(g(n))$. Now there are two possibilities. Similarly, addition dominates $f$ and $g$, one of them dominates addition, or they are bounded above and below by each other. In which case the binary representation of $h(n)$ is computable in $O(f(n))$, $O(g(n))$, or $O(+(n, m))$. So it's enough to show that addition is time-constructible.
+      That is, we must show there exists a Turing machine $M_h$ that computes $\lfloor f(|x|) + g(|x|) \rfloor$ in $O(f(n) + g(n))$.
 
+      We know the following:
+
+      \begin{itemize}
+        \item There exists a Turing machine $M_f$ that computes $\lfloor f(|x|) \rfloor$ in $O(f(n))$ by the definition of time-constructibility in \cite{textbook, 16} and lecture.
+
+        \item There exists a Turing machine $M_g$ that computes $\lfloor g(|x|) \rfloor$ in $O(g(n))$.
+
+        \item Either $f = O(g)$, $g = O(f)$ or $f = \Theta(g)$ for sufficiently large $|x|$. That is, the runtime of either $M_f$ or $M_g$ is $\Theta(h(n))$.
+      \end{itemize}
+
+      As a result we know that $M_h$ exists.
     \end{proof}
 
     \begin{proof} (b)
-      We must show the existence of a time-constructible function $h : \mathbb{N} \rightarrow \mathbb{N}$ such that:
+      We must show that following $h : \mathbb{N} \rightarrow \mathbb{N}$ is time-constructible.
 
       \begin{align*}
         h(n) &= f(n) \cdot g(n)
@@ -119,13 +130,13 @@
           \P \subseteq \PSPACE \subseteq \EXP \implies \P \subseteq \EXP
         \end{equation}
 
-        Which admits the possibility that $\P = \EXP$ which we know is not true by the time hierarchy theorem [TODO citation and note that you had this idea before the damn book told you about the time hierarchy theorem!]. Therefore, we must conclude that one of the two subsets must be proper as required.
+        Which admits the possibility that $\P = \EXP$ which we know is not true by the time hierarchy theorem. Therefore, we must conclude that one of the two subsets must be proper as required.
       \end{proof}
 
     \item Show that if $\PH = \PSPACE$, then the polynomial hierarchy collapses.
 
       \begin{proof}
-        We know that there exists a $\PSPACE$-complete problem, TQBF. Then, if $\PH = \PSPACE$, TQBF must also be $\PH$-complete. This implies that every problem in $\PH$ can be reduced in polynomial time to TQBF. Also, by the definition of $\PH$ then TQBF must also exist at a specific ``level'' of the polynomial hierarchy (TODO clarify). As a result all languages in $\PH$ can be reduced to the level at which TQBF resides and the hierarchy collapses.
+        We know that there exists a $\PSPACE$-complete problem, TQBF. Then, if $\PH = \PSPACE$, TQBF must also be $\PH$-complete. This implies that every problem in $\PH$ can be reduced in polynomial time to TQBF. Also, by the definition of $\PH$ then TQBF must also exist at a specific ``level'' of the polynomial hierarchy. As a result all languages in $\PH$ can be reduced to the level at which TQBF resides and the hierarchy collapses.
       \end{proof}
 
     \newpage
