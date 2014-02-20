@@ -140,8 +140,6 @@
         We know that there exists a $\PSPACE$-complete problem, TQBF. Then, if $\PH = \PSPACE$, TQBF must also be $\PH$-complete. This implies that every problem in $\PH$ can be reduced in polynomial time to TQBF. Also, by the definition of $\PH$ then TQBF must also exist at a specific ``level'' of the polynomial hierarchy. As a result all languages in $\PH$ can be reduced to the level at which TQBF resides and the hierarchy collapses.
       \end{proof}
 
-    \newpage
-
     \item Prove that $\P^{\text{TQBF}} = \NP^{\text{TQBF}}$.
 
       \begin{proof}
@@ -155,10 +153,11 @@
 
       Clearly any member of $\P^{\text{TQBF}}$ is also a member of $\NP^{\text{TQBF}}$ since any TM $M'$ deciding a language in $\P^{\text{TQBF}}$ can simply ignore the certificate argument and decide membership as normal. So we have that, $\P^{\text{TQBF}} \subseteq \NP^{\text{TQBF}}$.
 
-      Second, by Cook Levin we know that any language in $\NP^{\text{TQBF}}$ can be reduced to SAT in polynomial time. Then an appeal to the TQBF oracle can be made resulting in a polynomial time algorithm and we have that $\NP^{\text{TQBF}} \subseteq \P^{\text{TQBF}}$.
+      Second, by Cook Levin we know that any language in $\NP^{\text{TQBF}}$ can be reduced to SAT in polynomial time. Also we know that we can convert a CNF to a TQBF in linear time on the number of variables in the CNF. Then an appeal to the TQBF oracle can be made instantly, resulting in a polynomial time algorithm and as a result we have that $\NP^{\text{TQBF}} \subseteq \P^{\text{TQBF}}$.
 
-      Note, we can say that Cook Levin applies to $\NP^{\text{TQBF}}$
+      Note, we must be careful here because the validity of single cell of a tableau that can appeal to an oracle depends, not only on the normal 3 cells from the preceding state but also possibly on the entire state of the ``oracle tape''. That is the state and value of the cell under consideration may be due to an appeal to the TQBF oracle so that must be taken into account.
 
+Luckily, even if we consider a TQBF in every clause of the output CNF from the Cook Levin reduction we can treat it as a constant true or false value due to the TQBF oracle when verifying some assignment to the variables.
       \end{proof}
 
     \item Find an error in the following incorrect proof that $\NPSPACE = \PSPACE$ ...
