@@ -1,4 +1,3 @@
-
 \documentclass[usletter]{article}
 \usepackage{graphicx}
 \usepackage{amsfonts}
@@ -11,10 +10,11 @@
 
 \begin{document}
 
-\makeheader{John Bender}
-           {February 10, 2014}
-           {1}
-           {Midterm Examination}
+\makeheader{John Bender}{February 10, 2014}{1}{Midterm Examination}
+
+I have frequently referred to the textbook \cite{textbook} and my notes throughout the course of working on these problems. If necessary I can provide specifics but I've consulted the book for nearly every problem to at least double-check my understanding of the employed technique.
+
+Additionally I checked the wikipedia article on time-constructible functions \cite{wikipedia} to verify my notes of the definition from lecture.
 
 \begin{enumerate}
   \item Given any languages $L_1, L_2 \in \NP$, prove that $L_1 \cup L_2 \in \NP$
@@ -56,7 +56,7 @@
       We know the following:
 
       \begin{itemize}
-        \item Any time-constructible function $T(n)$ must be at least $n$ to read the input.
+        \item Any time-constructible function $T(n)$ must be $\Omega(n)$ to read the input.
 
         \item There exists a Turing machine $M_f$ that computes $\lfloor f(|x|) \rfloor$ in $O(f(n))$ by the definition of time-constructibility.
 
@@ -155,9 +155,9 @@
 
       Second, by Cook Levin we know that any language in $\NP^{\text{TQBF}}$ can be reduced to SAT in polynomial time. Also we know that we can convert a CNF to a TQBF in linear time on the number of variables in the CNF. Then an appeal to the TQBF oracle can be made instantly, resulting in a polynomial time algorithm and as a result we have that $\NP^{\text{TQBF}} \subseteq \P^{\text{TQBF}}$.
 
-      Note, we must be careful here because the validity of single cell of a tableau that can appeal to an oracle depends, not only on the normal 3 cells from the preceding state but also possibly on the entire state of the ``oracle tape''. That is the state and value of the cell under consideration may be due to an appeal to the TQBF oracle so that must be taken into account.
+      Note, because the validity of single cell of a tableau that can appeal to an oracle depends, not only on the normal 3 cells from the preceding state but also possibly on the entire state of the ``oracle tape''. That is the state and value of the cell under consideration may be due to an appeal to the TQBF oracle so that must be taken into account.
 
-Luckily, even if we consider a TQBF in every clause of the output CNF from the Cook Levin reduction we can treat it as a constant true or false value due to the TQBF oracle when verifying some assignment to the variables.
+Luckily, even if we consider a TQBF in every clause of the output CNF from the Cook Levin reduction the length of the TQBF can be at most polynomial since the tableau represents the polynomial time verifier of another language in $\NP^{TQBF}$. In addition the polynomial time verifier for $\texttt{SAT}^{TQBF}$ can immediately appeal to the TQBF oracle when verifying a satisfying assignment that includes TQBFs. So the verifier will remain polynomial even when writing TQBFs to its oracle tape frequently.
       \end{proof}
 
     \item Find an error in the following incorrect proof that $\NPSPACE = \PSPACE$ ...
@@ -165,5 +165,10 @@ Luckily, even if we consider a TQBF in every clause of the output CNF from the C
       Due to non-determinism the algorithm can't know when it is done ``trying out all the possible non-deterministic guesses'' without doing some recording of which guesses it has made. This may require as much as $2^{n^c}$ space to record and possibly placing the algorithm in $\EXPSPACE$.
 
 \end{enumerate}
+
+\newpage
+
+\bibliographystyle{abbrv}
+\bibliography{1}
 
 \end{document}

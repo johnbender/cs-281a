@@ -1,7 +1,8 @@
 build(){
+  filename=`echo $1 | sed 's/\..*//'`
 	pdflatex -interaction=nonstopmode $1
   if ! [ -z "$2" ]; then
-	  bibtex $2
+	  bibtex $filename.aux
 	  pdflatex -interaction=nonstopmode $1
 	  pdflatex -interaction=nonstopmode $1
   fi
