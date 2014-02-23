@@ -12,9 +12,11 @@
 
 \makeheader{John Bender}{February 10, 2014}{1}{Midterm Examination}
 
-I have frequently referred to the textbook \cite{textbook} and my notes throughout the course of working on these problems. If necessary I can provide specifics but I've consulted the book for nearly every problem to at least double-check my understanding of the employed technique.
+I have frequently referred to the textbook \cite{textbook} and my notes throughout the course of working on these problems. If necessary I can provide specifics but I've consulted the book for nearly every problem to at least double-check my understanding of the information/facts employed.
 
 Additionally I checked the wikipedia article on time-constructible functions \cite{wikipedia} to verify my notes of the definition from lecture.
+
+I did not complete 4. I've included the angles and reasoning I explored while trying. I spent a lot of time on without getting very far. In general I am unable to span the gap between the inability to establish where a Turing machine switches from appearing to be constant and how to use that to diagonalize the output of a Turing machine that does.
 
 \begin{enumerate}
   \item Given any languages $L_1, L_2 \in \NP$, prove that $L_1 \cup L_2 \in \NP$
@@ -101,20 +103,32 @@ Additionally I checked the wikipedia article on time-constructible functions \ci
 
   \item Consider the following task: given the encoding $\alpha \in \{0,1\}^*$ of a Turing machine $M_{\alpha}$ that halts on every input, determine whether $M_{\alpha}$ runs in constant time. Either give an algorithm for this problem or prove that it is undecidable.
 
-      \begin{proof}
-        For the sake of contradiction we assume there exists a deterministic Turing machine $M_{const}$ that decides the following language, where all $M_{\alpha}$ under consideration are known to halt.
-        \begin{align}
-          \{ \lfloor M_{\alpha} \rfloor : M_{\alpha} \text{runs in constant time} \}
-        \end{align}
+    \begin{proof}
+      Assuming that there exists a deterministic Turing machine $M_{const}$ that decides the following language, where every $M_{\alpha}$ under consideration is known to halt.
 
-        Since it is possible to encode $M_{const}$ we construct $M_{\beta}$ using $M_{const}$ to take the following steps:
+      \begin{align}
+        \{ M_{\alpha} : M_{\alpha}\ \text{runs in}\ O(1)\}
+      \end{align}
+
+      We know the following:
+
+      \begin{itemize}
+        \item Any diagonalizer we create to for this language must halt.
+        \item $M_{const}$ must know something about $M_{\alpha}$ to decide whether it runs in constant time. That is, it must consult at least one bit of information that is not a preceding zero.
+        \item $M_{const}$ can not be a constant time algorithm. For any constant $c$ value that bounds its execution there exists a TM $M_{\alpha'}$ that has at least $c$ preceding zeros and also halts and therefore must be considered.
+        \item It's easy to ``flip'' the output of $M_{const}$ when the result is 1.
+      \end{itemize}
+
+
+      Since it is possible to encode $M_{const}$ we construct $M_{\beta}$ using $M_{const}$ to take the following steps:
 
         \begin{enumerate}
           \item Simulate $M_{const}(\lfloor M_{const} \rfloor)$ and record the running time.
           \item If $M_{const}(\lfloor M_{const} \rfloor) = 1$ then we know that $M_{const}$ is a constant time algorithm and we simulate its execution with the input $x$.
           \item If $M_{const}(x) = 1$, write $|x|^2$ ones to a work tape and exit, otherwise exit having used a constant amount of time (by b) to run $M_{const}$ twice..
           \item Otherwise if $M_{const}(\lfloor M_{const} \rfloor) = 0$ then we know that $M_{const}$ is not a constant time algorithm, but since $M_{const}$ is a deterministic Turing machine this simulated execution has a fixed execution time $T_{const}(n)$. We simulate its execution with the input $x$ and record the running time.
-          \item If $M_{const}(x) = 1$ exit having run the non-constant time $M_{const}$ twice. Otherwise write ${3 \cdot T_{const}(n)}$ ones to a work tape which is both constant and by definition must exceed the execution time of $M_{const}(\lfloor M_{const} \rfloor)$.
+          \item If $M_{const}(x) = 1$ exit having run the non-constant time $M_{const}$ twice.
+          \item Otherwise ???
         \end{enumerate}
 
         By assumption $M_{const}(\lfloor M_{\beta} \rfloor) = 1$ if $M_{\beta}$ is a constant time algorithm and $0$ if it isn't.
@@ -157,7 +171,7 @@ Additionally I checked the wikipedia article on time-constructible functions \ci
 
       Note, because the validity of single cell of a tableau that can appeal to an oracle depends, not only on the normal 3 cells from the preceding state but also possibly on the entire state of the ``oracle tape''. That is the state and value of the cell under consideration may be due to an appeal to the TQBF oracle so that must be taken into account.
 
-Luckily, even if we consider a TQBF in every clause of the output CNF from the Cook Levin reduction the length of the TQBF can be at most polynomial since the tableau represents the polynomial time verifier of another language in $\NP^{TQBF}$. In addition the polynomial time verifier for $\texttt{SAT}^{TQBF}$ can immediately appeal to the TQBF oracle when verifying a satisfying assignment that includes TQBFs. So the verifier will remain polynomial even when writing TQBFs to its oracle tape frequently.
+Even if we consider a TQBF in every clause of the output CNF from the Cook Levin reduction the length of the TQBF can be at most polynomial since the tableau represents the polynomial time verifier of another language in $\NP^{TQBF}$. In addition the polynomial time verifier for $\texttt{SAT}^{TQBF}$ can immediately appeal to the TQBF oracle when verifying a satisfying assignment of a CNF that includes TQBFs. So the verifier will remain polynomial even when writing TQBFs to its oracle tape frequently.
       \end{proof}
 
     \item Find an error in the following incorrect proof that $\NPSPACE = \PSPACE$ ...
