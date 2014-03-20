@@ -121,21 +121,18 @@ I do not feel particularly confident in my answer to number 7 either.
         \item It's easy to ``flip'' the output of $M_{const}$ when the result is 1.
       \end{itemize}
 
+      \textbf{First attempt:}
 
       Since it is possible to encode $M_{const}$ we construct $M_{\beta}$ using $M_{const}$ to take the following steps:
 
-        \begin{enumerate}
-          \item Simulate $M_{const}(\lfloor M_{const} \rfloor)$ and record the running time.
+      \begin{enumerate}
+        \item Simulate $M_{const}(\lfloor M_{const} \rfloor)$ and record the running time. \textbf{Note:} This won't work since we have no guarantee that $M_{const}$ halts on every input only on x (the input to $M_{\beta}$).
           \item If $M_{const}(\lfloor M_{const} \rfloor) = 1$ then we know that $M_{const}$ is a constant time algorithm and we simulate its execution with the input $x$.
           \item If $M_{const}(x) = 1$, write $|x|^2$ ones to a work tape and exit, otherwise exit having used a constant amount of time (by b) to run $M_{const}$ twice..
           \item Otherwise if $M_{const}(\lfloor M_{const} \rfloor) = 0$ then we know that $M_{const}$ is not a constant time algorithm, but since $M_{const}$ is a deterministic Turing machine this simulated execution has a fixed execution time $T_{const}(n)$. We simulate its execution with the input $x$ and record the running time.
           \item If $M_{const}(x) = 1$ exit having run the non-constant time $M_{const}$ twice.
           \item Otherwise ???
         \end{enumerate}
-
-        By assumption $M_{const}(\lfloor M_{\beta} \rfloor) = 1$ if $M_{\beta}$ is a constant time algorithm and $0$ if it isn't.
-
-        Note $M_{\beta}$ halts for all inputs.
       \end{proof}
 
     \item Prove that at least one of the containments $\P \subseteq \PSPACE \subseteq \EXP$ is proper.

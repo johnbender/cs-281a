@@ -1,0 +1,56 @@
+\documentclass[usletter]{article}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{test}
+\usepackage{complexity}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{algpseudocode}
+
+\newcommand{\halt}[0]{
+  \overline{\textsf{HALT}}
+}
+
+\begin{document}
+
+\makeheader{John Bender}{March 20, 2014}{2}{Final Examination}
+
+I have frequently referred to the textbook \cite{textbook} and my notes throughout the course of working on these problems. If necessary I can provide specifics.
+
+\begin{enumerate}
+  \item A language $L$ is \textit{Turing-recognizable} if there is a Turing machine that halts iff the input is in $L$. Prove that not all languages are Turing-recognizable.
+    \begin{proof}
+      Consider $\halt$ and suppose for the sake of contradiction that there is a Turing machine $M_{\halt}$ that halts when a TM \textit{does not} halt for a given input. Now, if $\alpha = \lfloor M_{\halt} \rfloor $ then $M_{\halt}(\alpha, \alpha)$ halts only when $M_{\halt}$ doesn't halt on itself. A contradiction.
+    \end{proof}
+
+  \item Give a polynomial-time algorithm for determining whether a given 2-CNF formula is satisfiable.
+
+    \begin{algorithm}
+      \begin{algorithmic}[1]
+        \Procedure{2SAT}{$\phi$}
+        \ForAll{$C_1 \in \phi$}
+        \State $x_1 = C_1[1]$
+        \State $x_2 = C_1[2]$ \\
+        \ForAll{$C_2 \in \phi$}
+        \State $y_1 = C_2[1]$
+        \State $y_2 = C_2[2]$
+        \If{$y_1 = \overline{x_1} \land y_2 = \overline{x_2}$}
+        \State \textbf{return} 0
+        \EndIf
+        \EndFor
+        \EndFor \\
+        \State \textbf{return} 1
+        \EndProcedure
+      \end{algorithmic}
+    \end{algorithm}
+
+\end{enumerate}
+
+\newpage
+
+\bibliographystyle{abbrv}
+\bibliography{1}
+
+\end{document}
