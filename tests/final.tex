@@ -63,7 +63,7 @@ I have frequently referred to the textbook \cite{textbook} and my notes througho
         \item TQBF is $\PSPACE$-complete
       \end{enumerate}
 
-      As a result, if TQBF has polynomial time randomized algorithm then by (a) TQBF is in $\Sigma_{2}^{p} \cap \Pi_{2}^{p}$ and by (b) and (c) all languages in $\PH$ can be reduced to TQBF in polynomial time collapsing $\PH$.
+      As a result, if TQBF has polynomial time randomized algorithm then by (a) and assumption TQBF is in $\Sigma_{2}^{p} \cap \Pi_{2}^{p}$ and by (b) and (c) all languages in $\PH$ can be reduced to TQBF in polynomial time collapsing $\PH$.
     \end{proof}
 
   \item Two players take turns choosing vertices from a directed graph ...
@@ -78,6 +78,8 @@ I have frequently referred to the textbook \cite{textbook} and my notes througho
      \item[5.] \textbf{Reuse} the space that was used for the last edge traversal to traverse another edge.
      \item[6.] Place each result at the interior nodes in disjunction with previous results. When there are no more edges move back up the tree and repeat.
    \end{itemize}
+
+   When all edges from the root node have been explored, if the disjunction there is true then there is a way for the first player to force a win.
 
    There are three components to the space being used by the algorithm at any point in time. The information being recorded at each node and the depth of the path taken. Clearly the number of vertices in a path can be at most $n$. Also the record of all edges to traverse at a given node (for ensuring we don't traverse the same path twice) can be at most $n-1$. Finally the size of the boolean formula used in interior nodes of the graph can involve at most $n$ values.
 
@@ -113,12 +115,12 @@ I have frequently referred to the textbook \cite{textbook} and my notes througho
       We know the following:
 
       \begin{enumerate}
-        \item $\IP$ = $\PSPACE$ \cite{textbook}
-        \item TQBF is $\PSPACE$-complete
-        \item TQBF has a protocol that is complete with probability 1
+        \item $\IP = \PSPACE$.
+        \item TQBF has a protocol that has perfect completeness.
+        \item TQBF is $\PSPACE$-complete.
       \end{enumerate}
 
-      By (a) and (b) we know that all problems in $\IP$ can be reduced to TQBF. Then, by (c), that means that all problems have a polynomial time verifier with completeness 1 because each verifier can first reduce to TQBF and then proceed with its protocol.
+      By (a) and (c) we know that all problems in $\IP$ can be reduced to TQBF. Then, by (b), all problems in $\IP$ have a polynomial time verifier with a completeness probability of 1 because each verifier can first reduce to TQBF and then proceed with its protocol in polynomial time.
     \end{proof}
 
     \item Given a system $L$ of linear equations over $\mathbb{F}_2$ ...
