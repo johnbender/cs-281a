@@ -27,9 +27,9 @@ I have frequently referred to the textbook \cite{textbook} and my notes througho
 
   \item Give a polynomial-time algorithm for determining whether a given 2CNF formula is satisfiable.
 
-    The basic idea is that for a 2CNF to be satisfiable, given any two clauses, one should not be constructed of the negation of the other's variables. For example $(x_1 \lor x_2 ) \land (\overline{x_1} \lor \overline{x_2})$ is unsatisfiable, but any other configuration of the second clause is satisfiable. More prosaically, satisfying one clause won't prevent any other from being satisfied.
+    The basic idea is that for a 2CNF to be satisfiable, given any two clauses, one should not be constructed of the negation of the other's variables.
 
-    \\
+    Note, seemingly only covers one way in which a 2CNF might by unsatisfiable.
 
     \begin{algorithm}
       \begin{algorithmic}[1]
@@ -51,6 +51,15 @@ I have frequently referred to the textbook \cite{textbook} and my notes througho
     \end{algorithm}
 
   \item Prove that there is a real number $0 < p < 1$ ...
+
+    Idea: We know that it is possible to simulate a $p$ biased coin with a fair coin by checking against the binary expansion of $p$. So, with high probability, by Markov's inequality, it is possible with some reordering to generate enough of ones and zeros using $\approx 3n$ flips of $p$ biased coin to approximate the expansion of $p$ to a large number of digits.
+
+    Further, we can make the following assertion about some $p$:
+    \begin{equation*}
+      \{ y : y\ \text{is the binary expansion of}\ p\text{, s.t.}\ y\ \text{encodes a pair}\ \langle M, x \rangle\ \text{where}\ M\ \text{halts on}\ x \}
+    \end{equation*}
+
+    This is similar to how we know that linear space circuit family \textit{exists} that decides a similar subset of the halting problem.
 
   \item Prove that the polynomial hierarchy collapses if TQBF has a polynomial-time randomized algorithm.
 
@@ -124,6 +133,14 @@ I have frequently referred to the textbook \cite{textbook} and my notes througho
     \end{proof}
 
     \item Given a system $L$ of linear equations over $\mathbb{F}_2$ ...
+
+      We know the following:
+
+      \begin{enumerate}
+        \item solving a system of linear equations, that is $\mathsf{opt}(L) = |L|$, requires polynomial time.
+        \item It's possible to reduce a restricted subset of 3SAT formulae that use XOR to a system of linear equations in $\mathbb{F}_2$
+      \end{enumerate}
+
 \end{enumerate}
 
 
