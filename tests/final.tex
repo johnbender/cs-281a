@@ -52,14 +52,14 @@ I have frequently referred to the textbook \cite{textbook} and my notes througho
 
   \item Prove that there is a real number $0 < p < 1$ ...
 
-    Idea: We know that it is possible to simulate a $p$ biased coin with a fair coin by checking against the binary expansion of $p$. So, with high probability, by Markov's inequality, it is possible with some reordering to generate enough of ones and zeros using $\approx 3n$ flips of $p$ biased coin to approximate the expansion of $p$ to a large number of digits.
+    Idea: We know that it is possible to simulate a $p$ biased coin with a fair coin by checking against the binary expansion of $p$. So, with high probability, by Markov's inequality, it is possible with some reordering to generate enough ones and zeros using $\approx 3n$ flips of $p$ biased coin to approximate the expansion of $p$ to $n$ bits.
 
     Further, we can make the following assertion about some $p$:
     \begin{equation*}
       \{ y : y\ \text{is the binary expansion of}\ p\text{, s.t.}\ y\ \text{encodes a pair}\ \langle M, x \rangle\ \text{where}\ M\ \text{halts on}\ x \}
     \end{equation*}
 
-    This is similar to how we know that linear space circuit family \textit{exists} that decides a similar subset of the halting problem.
+    This is similar to how we know that a linear space circuit family exists that decides a similar subset of the halting problem.
 
   \item Prove that the polynomial hierarchy collapses if TQBF has a polynomial-time randomized algorithm.
 
